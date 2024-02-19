@@ -25,7 +25,7 @@ http://notifications.xpto.localhost/dashboard
 
 ## Detalhes
 
-Este orquestrador utiliza o Traefik como proxy reverso para permitir o acesso aos containers de frontend e API via DNS. Isso significa que você pode acessá-los facilmente através dos seguintes endereços:
+Este orquestrador utiliza o [Traefik](https://doc.traefik.io/traefik/) como proxy reverso para permitir o acesso aos containers de frontend e API via DNS. Isso significa que você pode acessá-los facilmente através dos seguintes endereços:
 
 - Frontend: http://notifications.xpto.localhost
 - Backend/API: http://api.notifications.xpto.localhost
