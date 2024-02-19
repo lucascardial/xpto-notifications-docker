@@ -37,8 +37,8 @@ sleep 5 && open http://notifications.xpto.localhost/dashboard
 
 Neste repositório você encontrará duas planilhas para testar a aplicação:
 
-1. `contacts.csv` uma planilha válida com 10mil registros
-2. `contacts-invalid.csv` uma planilha inválida com 10mil registros (para testar a validação)  
+1. [contacts.csv](https://github.com/lucascardial/xpto-notifications-docker/blob/main/contacts.csv) uma planilha válida com 10mil registros
+2. [contacts-invalid.csv](https://github.com/lucascardial/xpto-notifications-docker/blob/main/contacts-invalid.csv) uma planilha inválida com 10mil registros (para testar a validação)  
 
 Este orquestrador utiliza o [Traefik](https://doc.traefik.io/traefik/) como proxy reverso para permitir o acesso aos containers de frontend e API via DNS. Isso significa que você pode acessá-los facilmente através dos seguintes endereços:
 
