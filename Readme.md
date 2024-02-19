@@ -1,6 +1,6 @@
 # Orquestrador Local
 
-Este repositório serve como um orquestrador local para os repositórios de frontend e backend do projeto de teste prático gove.
+Este repositório serve como um orquestrador local para os repositórios de [frontend](https://github.com/lucascardial/xpto-notifications-webapp) e [backend](https://github.com/lucascardial/xpto-notifications-api) do projeto de teste prático gove.
 
 ## Uso
 
