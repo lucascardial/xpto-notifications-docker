@@ -1,0 +1,107 @@
+version: "3.1"
+services:
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  database:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${LARAVEL_DB_USERNAME}
+      POSTGRES_PASSWORD: ${LARAVEL_DB_PASSWORD}
+      POSTGRES_DB: ${LARAVEL_DB_DATABASE}
+    ports:
+      - 5432:5432
+
+  webapp:
+    build:
+      context: ./xpto-notifications-webapp
+      dockerfile: Dockerfile
+    environment:
+      - SRV_API_URL=http://api/api
+      - NEXT_PUBLIC_API_URL=http://api.notifications.xpto.localhost/api
+    ports:
+      - 3002:3000
+    depends_on:
+      - api
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webapp.rule=Host(`notifications.xpto.localhost`)"
+      - "traefik.http.routers.webapp.entrypoints=web"
+      - "--entrypoints.web.address=:3000"
+
+  api:
+    build:
+      context: ./xpto-notifications-api
+      dockerfile: Dockerfile
+    ports:
+      - 8001:80
+    depends_on:
+      - database
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.notifications.xpto.localhost`)"
+      - "traefik.http.routers.api.entrypoints=web"
+      - "--entrypoints.web.address=:80"
+    environment:
+      - APP_NAME=${LARAVEL_APP_NAME}
+      - APP_ENV=${LARAVEL_APP_ENV}
+      - APP_KEY=${LARAVEL_APP_KEY}
+      - APP_DEBUG=${LARAVEL_APP_DEBUG}
+      - APP_URL=${LARAVEL_APP_URL}
+      - LOG_CHANNEL=${LARAVEL_LOG_CHANNEL}
+      - LOG_DEPRECATIONS_CHANNEL=${LARAVEL_LOG_DEPRECATIONS_CHANNEL}
+      - LOG_LEVEL=${LARAVEL_LOG_LEVEL}
+      - DB_CONNECTION=${LARAVEL_DB_CONNECTION}
+      - DB_HOST=${LARAVEL_DB_HOST}
+      - DB_PORT=${LARAVEL_DB_PORT}
+      - DB_DATABASE=${LARAVEL_DB_DATABASE}
+      - DB_USERNAME=${LARAVEL_DB_USERNAME}
+      - DB_PASSWORD=${LARAVEL_DB_PASSWORD}
+      - BROADCAST_DRIVER=${LARAVEL_BROADCAST_DRIVER}
+      - CACHE_DRIVER=${LARAVEL_CACHE_DRIVER}
+      - FILESYSTEM_DISK=${LARAVEL_FILESYSTEM_DISK}
+      - QUEUE_CONNECTION=${LARAVEL_QUEUE_CONNECTION}
+      - SESSION_DRIVER=${LARAVEL_SESSION_DRIVER}
+      - SESSION_LIFETIME=${LARAVEL_SESSION_LIFETIME}
+      - MEMCACHED_HOST=${LARAVEL_MEMCACHED_HOST}
+      - REDIS_HOST=${LARAVEL_REDIS_HOST}
+      - REDIS_PASSWORD=${LARAVEL_REDIS_PASSWORD}
+      - REDIS_PORT=${LARAVEL_REDIS_PORT}
+      - MAIL_MAILER=${LARAVEL_MAIL_MAILER}
+      - MAIL_HOST=${LARAVEL_MAIL_HOST}
+      - MAIL_PORT=${LARAVEL_MAIL_PORT}
+      - MAIL_USERNAME=${LARAVEL_MAIL_USERNAME}
+      - MAIL_PASSWORD=${LARAVEL_MAIL_PASSWORD}
+      - MAIL_ENCRYPTION=${LARAVEL_MAIL_ENCRYPTION}
+      - MAIL_FROM_ADDRESS=${LARAVEL_MAIL_FROM_ADDRESS}
+      - MAIL_FROM_NAME=${LARAVEL_MAIL_FROM_NAME}
+      - AWS_ACCESS_KEY_ID=${LARAVEL_AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${LARAVEL_AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${LARAVEL_AWS_DEFAULT_REGION}
+      - AWS_BUCKET=${LARAVEL_AWS_BUCKET}
+      - AWS_USE_PATH_STYLE_ENDPOINT=${LARAVEL_AWS_USE_PATH_STYLE_ENDPOINT}
+      - PUSHER_APP_ID=${LARAVEL_PUSHER_APP_ID}
+      - PUSHER_APP_KEY=${LARAVEL_PUSHER_APP_KEY}
+      - PUSHER_APP_SECRET=${LARAVEL_PUSHER_APP_SECRET}
+      - PUSHER_HOST=${LARAVEL_PUSHER_HOST}
+      - PUSHER_PORT=${LARAVEL_PUSHER_PORT}
+      - PUSHER_SCHEME=${LARAVEL_PUSHER_SCHEME}
+      - PUSHER_APP_CLUSTER=${LARAVEL_PUSHER_APP_CLUSTER}
+      - VITE_APP_NAME=${LARAVEL_VITE_APP_NAME}
+      - VITE_PUSHER_APP_KEY=${LARAVEL_VITE_PUSHER_APP_KEY}
+      - VITE_PUSHER_HOST=${LARAVEL_VITE_PUSHER_HOST}
+      - VITE_PUSHER_PORT=${LARAVEL_VITE_PUSHER_PORT}
+      - VITE_PUSHER_SCHEME=${LARAVEL_VITE_PUSHER_SCHEME}
+      - VITE_PUSHER_APP_CLUSTER=${LARAVEL_VITE_PUSHER_APP_CLUSTER}
