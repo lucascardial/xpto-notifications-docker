@@ -23,6 +23,16 @@ make build
 http://notifications.xpto.localhost/dashboard
 ```
 
+Se você não tiver o `make` instalado, você pode executar os comandos manualmente:
+
+```bash
+rm -rf xpto-notifications-api xpto-notifications-webapp
+git clone https://github.com/lucascardial/xpto-notifications-api.git
+git clone https://github.com/lucascardial/xpto-notifications-webapp.git
+docker-compose --env-file .env up -d --build
+sleep 5 && open http://notifications.xpto.localhost/dashboard
+```
+
 ## Detalhes
 
 Neste repositório você encontrará duas planilhas para testar a aplicação:
