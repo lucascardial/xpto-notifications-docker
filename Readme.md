@@ -7,8 +7,8 @@ Este repositório serve como um orquestrador local para os repositórios de [fro
 1. Clone este repositório para o seu ambiente de desenvolvimento:
 
 ```bash
-git clone https://github.com/lucascardial/orquestrador-local.git
-cd gove
+git clone https://github.com/lucascardial/xpto-notifications-docker.git
+cd xpto-notifications-docker
 ```
 
 2. Execute o comando `make build` para clonar e provisionar os containers localmente:
