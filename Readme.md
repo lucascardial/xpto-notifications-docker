@@ -36,6 +36,7 @@ Este orquestrador utiliza o [Traefik](https://doc.traefik.io/traefik/) como prox
 - Docker
 - Git
 - Navegador da Web (para visualizar a aplicação)
+- Porta 80 dispoível para o traefik
 
 ## Licença
 
